@@ -1,0 +1,1 @@
+web: bokeh serve --port=$PORT --allow-websocket-origin=morth-bokeh.herokuapp.com --address=0.0.0.0 --use-xheaders morth.py
