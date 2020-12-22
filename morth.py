@@ -3,7 +3,7 @@
 
 # bokeh serve --show morth.py
 
-# In[50]:
+# In[1]:
 
 
 import math
@@ -30,7 +30,7 @@ warnings.filterwarnings('ignore')
 output_notebook()
 
 
-# In[51]:
+# In[2]:
 
 
 df=pd.read_csv('roads.csv')
@@ -74,7 +74,7 @@ hover.tooltips = """
 p1.add_tools(hover)
 
 
-# In[52]:
+# In[3]:
 
 
 t1 = Div(text="""<b>Interpretation:</b> As the accident rate increases, the odds of survival decrease. There is a significant difference in accident rates across roads. The accident rate for national highways are the highest. """, width=500, height=70)
@@ -82,7 +82,7 @@ c1=column(p1,t1)
 show(c1)
 
 
-# In[53]:
+# In[4]:
 
 
 df=pd.read_csv('heatmap_india.csv')
@@ -117,7 +117,7 @@ hover.tooltips = """
 p21.add_tools(hover)
 
 
-# In[54]:
+# In[5]:
 
 
 df=pd.read_csv('heatmap_india.csv')
@@ -152,7 +152,7 @@ hover.tooltips = """
 p22.add_tools(hover)
 
 
-# In[55]:
+# In[6]:
 
 
 df=pd.read_csv('heatmap_india.csv')
@@ -187,7 +187,7 @@ hover.tooltips = """
 p23.add_tools(hover)
 
 
-# In[56]:
+# In[7]:
 
 
 df=pd.read_csv('heatmap_india.csv')
@@ -222,7 +222,7 @@ hover.tooltips = """
 p24.add_tools(hover)
 
 
-# In[57]:
+# In[8]:
 
 
 t21 = Div(text="""<b>Interpretation:</b> Goa has the highest accident rate (accidents per lakh population) and Punjab has the lowest survival probability. Some of the north-eastern states and union territories have low accident rates and high survival probabilities.""", width=600, height=50)
@@ -238,7 +238,7 @@ g1=gridplot([[c21,c23],[c22,c24]])
 show(g1)
 
 
-# In[58]:
+# In[9]:
 
 
 df=pd.read_csv('roads_rates.csv')
@@ -287,7 +287,7 @@ p3.legend.label_text_font_size = '10px'
 drop_bar = Select(options=categories, value=categories[0])
 
 
-# In[59]:
+# In[10]:
 
 
 t3 = Div(text="""<b>Interpretation:</b> Number of accidents per kilometre, persons killed per kilometre and persons injured per kilometre have decreased over time for National Highways, while they remain roughly same for State Highways, Other Roads and Overall.""", width=500, height=50)
@@ -295,7 +295,7 @@ c3=column(drop_bar,p3,t3)
 show(c3)
 
 
-# In[60]:
+# In[11]:
 
 
 def update_bar_chart(attrname, old, new):
@@ -360,7 +360,7 @@ def update_bar_chart(attrname, old, new):
     layout.tabs[0].child.children[0].children[1].children[1]=p3
 
 
-# In[61]:
+# In[12]:
 
 
 df=pd.read_csv('states_accidents.csv').transpose()
@@ -396,7 +396,7 @@ drop_bar1 = Select(options=states_list, value=states_list[0])
 drop_bar2 = Select(options=categories, value=categories[0])
 
 
-# In[62]:
+# In[13]:
 
 
 t4 = Div(text="""<b>Interpretation:</b> Number of accidents and persons injured have roughly decreased over time for most of the states and across all India. However, number of persons killed has increased over time for most of the states and overall across India.""", width=500, height=50)
@@ -404,7 +404,7 @@ c4=column(row(drop_bar1,drop_bar2),p4,t4)
 show(c4)
 
 
-# In[63]:
+# In[14]:
 
 
 def update_bar_chart1(attrname, old, new):
@@ -449,7 +449,7 @@ def update_bar_chart1(attrname, old, new):
     layout.tabs[1].child.children[0].children[1]=p4
 
 
-# In[64]:
+# In[15]:
 
 
 df=pd.read_csv('cities.csv')
@@ -489,14 +489,14 @@ x_mean=df['accidents_per_lakh_population'].mean()
 y_mean=df['survival_rate'].mean()
 
 # Vertical line
-vline = Span(location=150, dimension='height', line_color='red', line_width=2, line_alpha=0.5)
+vline = Span(location=x_mean, dimension='height', line_color='red', line_width=2, line_alpha=0.5)
 # Horizontal line
-hline = Span(location=0.75, dimension='width', line_color='green', line_width=2, line_alpha=0.5)
+hline = Span(location=y_mean, dimension='width', line_color='green', line_width=2, line_alpha=0.5)
 
-p81.vbar(x=[75], width=150, bottom=0.3, top=0.75, color=['blue'], alpha=0.2, legend='Low Survival probability, High Accident rate')
-p81.vbar(x=[75], width=150, bottom=0.75, top=1, color=['green'], alpha=0.2, legend='High Survival probability, Low Accident rate')
-p81.vbar(x=[225], width=150, bottom=0.3, top=0.75, color=['red'], alpha=0.2, legend='High Accident probability, Low Survival rate')
-p81.vbar(x=[225], width=150, bottom=0.75, top=1, color=['yellow'], alpha=0.2, legend='High Surival probability, High Accident rate')
+p81.vbar(x=[x_mean/2], width=x_mean, bottom=0, top=y_mean, color=['green'], alpha=0.2, legend='Low Severity rate, High Accident rate')
+p81.vbar(x=[x_mean/2], width=x_mean, bottom=y_mean, top=1, color=['blue'], alpha=0.2, legend='High Severity rate, Low Accident rate')
+p81.vbar(x=[5*x_mean/2], width=3*x_mean, bottom=0, top=y_mean, color=['yellow'], alpha=0.2, legend='High Accident rate, Low Severity rate')
+p81.vbar(x=[5*x_mean/2], width=3*x_mean, bottom=y_mean, top=1, color=['red'], alpha=0.2, legend='High Severity rate, High Accident rate')
 p81.renderers.extend([vline, hline])
 
 # Add Legend
@@ -505,7 +505,7 @@ p81.legend.location = 'center_right'
 p81.legend.label_text_font_size = '10px'
 
 
-# In[65]:
+# In[16]:
 
 
 df=pd.read_csv('cities.csv')
@@ -545,23 +545,22 @@ x_mean=df['accidents_per_lakh_population'].mean()
 y_mean=df['severity_rate'].mean()
 
 # Vertical line
-vline = Span(location=150, dimension='height', line_color='red', line_width=2, line_alpha=0.5)
+vline = Span(location=x_mean, dimension='height', line_color='red', line_width=2, line_alpha=0.5)
 # Horizontal line
-hline = Span(location=0.75, dimension='width', line_color='green', line_width=2, line_alpha=0.5)
+hline = Span(location=y_mean, dimension='width', line_color='green', line_width=2, line_alpha=0.5)
 
-p82.vbar(x=[75], width=150, bottom=0, top=0.75, color=['green'], alpha=0.2, legend='Low Severity rate, High Accident rate')
-p82.vbar(x=[75], width=150, bottom=0.75, top=1, color=['blue'], alpha=0.2, legend='High Severity rate, Low Accident rate')
-p82.vbar(x=[225], width=150, bottom=0, top=0.75, color=['yellow'], alpha=0.2, legend='High Severity rate, Low Survival rate')
-p82.vbar(x=[225], width=150, bottom=0.75, top=1, color=['red'], alpha=0.2, legend='High Severity rate, High Accident rate')
+p82.vbar(x=[x_mean/2], width=x_mean, bottom=0, top=y_mean, color=['green'], alpha=0.2, legend='Low Severity rate, High Accident rate')
+p82.vbar(x=[x_mean/2], width=x_mean, bottom=y_mean, top=1, color=['blue'], alpha=0.2, legend='High Severity rate, Low Accident rate')
+p82.vbar(x=[5*x_mean/2], width=3*x_mean, bottom=0, top=y_mean, color=['yellow'], alpha=0.2, legend='High Accident rate, Low Severity rate')
+p82.vbar(x=[5*x_mean/2], width=3*x_mean, bottom=y_mean, top=1, color=['red'], alpha=0.2, legend='High Severity rate, High Accident rate')
 p82.renderers.extend([vline, hline])
-
 # Add Legend
 p82.legend.orientation = 'vertical'
 p82.legend.location = 'center_right'
 p82.legend.label_text_font_size = '10px'
 
 
-# In[66]:
+# In[17]:
 
 
 t81 = Div(text="""<b>Interpretation:</b> The divisions have been made corresponding to the mean rates. All the metropolitian cities lie in the green zone - which is the area of high survival probability and low accident rate.""", width=500, height=50)
@@ -574,7 +573,7 @@ g2=gridplot([[c81,c82]])
 show(g2)
 
 
-# In[67]:
+# In[18]:
 
 
 df=pd.read_csv('heatmap_india.csv')
@@ -622,7 +621,7 @@ phm_1.patches('xs','ys', source = geosource,fill_color = {'field' :'cluster_labe
 phm_1.add_layout(color_bar, 'below')
 
 
-# In[68]:
+# In[19]:
 
 
 df=pd.read_csv('heatmap_india.csv')
@@ -669,7 +668,7 @@ phm_2.patches('xs','ys', source = geosource,fill_color = {'field' :'cluster_labe
 phm_2.add_layout(color_bar, 'below')
 
 
-# In[69]:
+# In[20]:
 
 
 df=pd.read_csv('heatmap_india.csv')
@@ -716,7 +715,7 @@ phm_3.patches('xs','ys', source = geosource,fill_color = {'field' :'cluster_labe
 phm_3.add_layout(color_bar, 'below')
 
 
-# In[70]:
+# In[21]:
 
 
 thm = Div(text="""<b>Interpretation:</b> There are some states which have relatively lower accident rates while having relatively higher severity rates. For example: Uttar Pradesh, Bihar, Jharkhand, West Bengal. On the other hand, there are some states which have a relatively higher accident rates while having lower severity rates. For example: Tamil Nadu, Telangana, Madhya Pradesh. Also, there are some states which have a relatively lower accident rates while having relatively higher survival rates. For example: Rajasthan, Gujarat, Maharashtra, Odisha. """, width=1400, height=50)
@@ -724,7 +723,7 @@ c79=column(row(phm_1,phm_2,phm_3),thm)
 show(c79)
 
 
-# In[71]:
+# In[22]:
 
 
 df=pd.read_csv('vehicle.csv')
@@ -772,7 +771,7 @@ hover.tooltips = [('Year','@Year')]
 p6.add_tools(hover)
 
 
-# In[72]:
+# In[23]:
 
 
 t6 = Div(text="""<b>Interpretation:</b> Vehicles per 1000 km is an increasing function of time. However, if the vehicle density increases, the accident rate does not increase, the accident rate has practically flattened out. This implies that drivers/passengers might not be the reason for such accidents.""", width=500, height=70)
@@ -780,7 +779,7 @@ c6=column(p6,t6)
 show(c6)
 
 
-# In[93]:
+# In[24]:
 
 
 from bokeh.models import FactorRange
@@ -820,7 +819,7 @@ for f in range(3):
 p11=gridplot([[vbar1,None],[vbar2,vbar3]])
 
 
-# In[94]:
+# In[25]:
 
 
 t11 = Div(text="""<b>Interpretation:</b> The percentage share of accidents, persons killed and persons injured have roughly remained the same across roads in the last twelve years.""", width=1000, height=70)
@@ -836,7 +835,7 @@ drop_bar1.on_change("value", update_bar_chart1)
 drop_bar2.on_change("value", update_bar_chart1)
 
 
-# In[84]:
+# In[27]:
 
 
 first=Panel(child=column(row(c1,c3),c10),title='Roads')
